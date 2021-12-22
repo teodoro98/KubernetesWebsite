@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hugowebsite
+  labels:
+    app: hugowebsite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hugowebsite
+  template:
+    metadata:
+      labels:
+        app: hugowebsite
+    spec:
+      containers:
+      - name: hugowebsite
+        image: teodo98/hugowebsite_1.0
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hugowebsite-svc
+spec:
+  selector:
+    app: hugowebsite
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hugowebsite-ingress
+  namespace: sandbox-s292509
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: s292509.sandbox.crownlabs.polito.it
+  - http:
+      paths:
+      - path: /*
+        pathType: Prefix
+        backend:
+          service:
+            name: hugowebsite-svc
+            port:
+              number: 80
+
+  tls:
+  - hosts:
+    - s292509.sandbox.crownlabs.polito.it
