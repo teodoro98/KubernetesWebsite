@@ -1,3 +1,9 @@
 [submodule "themes/docsy"]
-	path = themes/docsy
+	path = src/themes/docsy
 	url = https://github.com/google/docsy.git
+[submodule "src/themes/hello-friend-ng"]
+	path = src/themes/hello-friend-ng
+	url = https://github.com/rhazdon/hugo-theme-hello-friend-ng.git
+[submodule "src/themes/air"]
+	path = src/themes/air
+	url = https://github.com/syui/hugo-theme-air.git
